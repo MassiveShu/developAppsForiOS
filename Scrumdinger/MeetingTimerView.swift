@@ -10,6 +10,8 @@ import SwiftUI
 struct MeetingTimerView: View {
     let speakers: [ScrumTimer.Speaker]
     let theme: Theme
+    // create an isRecording property and pass the isRecording argument to MeetingTimerView() in the preview.
+    let isRecording: Bool
 
     // Add a computed property named currentSpeaker that returns the name of the current speaker.
     private var currentSpeaker: String {
@@ -24,6 +26,11 @@ struct MeetingTimerView: View {
                     Text(currentSpeaker)
                         .font(.title)
                     Text("is speaking")
+                    Image(systemName: isRecording ? "mic" : "mic.slash")
+                        .font(.title)
+                        .padding(.top)
+                    // VoiceOver users might be unable to use visual cues, so include auditory indicators in addition to visual ones.
+                        .accessibilityLabel(isRecording ? "with transcription" : "without transcription")
                 }
                 // Use the accessibilityElement modifier to combine the elements inside the VStack.
                 // This modifier makes VoiceOver read the two text views as one sentence.
@@ -57,6 +64,6 @@ struct MeetingTimerView_Previews: PreviewProvider {
     }
 
     static var previews: some View {
-        MeetingTimerView(speakers: speakers, theme: .yellow)
+        MeetingTimerView(speakers: speakers, theme: .yellow, isRecording: true)
     }
 }
